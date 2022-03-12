@@ -13,7 +13,6 @@ app.use(
         clientId: "18495362772-rftckb2iktu6689uurl8nbi06vr2cq7s.apps.googleusercontent.com",
         scope: 'email',
         prompt: 'consent',
-        fetch_basic_profile: false,
-        ux_mode: 'redirect',
+        fetch_basic_profile: false
     }
 )

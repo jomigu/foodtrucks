@@ -1,13 +1,16 @@
 <template>
   <nav>
+    <router-link to="/">Home</router-link> |
+    <router-link to="/dashboard">Dashboard</router-link>
     <p v-if="email">
       <small>Logged-in as {{ email }}</small>
     </p>
     <p v-else>
-      <button @click="signIn" type="button" class="btn btn-primary">Google Log-in</button>
+      <button @click="signIn" type="button" class="btn btn-primary mt-5">Google Log-in</button>
     </p>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/dashboard">Dashboard</router-link>
+    <p v-show="loginError" class="text-danger">
+      <small>Try again</small>
+    </p>
   </nav>
   <router-view/>
 </template>
@@ -20,20 +23,26 @@ export default {
     return {
       email: null,
       authCode: null,
+      loginError: false,
     }
   },
   methods: {
     async signIn() {
-      this.email = await this?.$gAuth?.instance?.currentUser?.get()?.getBasicProfile()?.getEmail()
-      if (this.email) {
-        this.authCode = this.$gAuth.getAuthCode()
+      this.loginError = false
+
+      const result = await this?.$gAuth?.getAuthCode()?.catch((e) => {
+        return e
+      })
+      
+      if (result) {
+        this.authCode = result
+        this.email = this.$gAuth.instance.currentUser.get().getBasicProfile().getEmail()
       } else {
-        this?.$gAuth?.signIn()
+        this.loginError = true
       }
     },
     async signOut() {
       await this.$gAuth.signOut()
-      await this.$gAuth.signIn()
     },
     authenticated() {
       return this.authCode != null
