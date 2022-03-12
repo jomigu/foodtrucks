@@ -3,7 +3,10 @@
     <router-link to="/">Home</router-link> |
     <router-link to="/dashboard">Dashboard</router-link>
     <p v-if="email">
-      <small>Logged-in as {{ email }}</small>
+      <small>Logged-in as {{ email }}. </small>
+      <a href="#" @click="signOut">
+        <small>Sign-out</small>
+      </a>
     </p>
     <p v-else>
       <button @click="signIn" type="button" class="btn btn-primary mt-5">Google Log-in</button>
@@ -36,13 +39,18 @@ export default {
       
       if (result) {
         this.authCode = result
-        this.email = this.$gAuth.instance.currentUser.get().getBasicProfile().getEmail()
+        this.email = this?.$gAuth?.instance?.currentUser?.get()?.getBasicProfile()?.getEmail()
+        if (!this.email) {
+          this.loginError = true
+        }
       } else {
         this.loginError = true
       }
     },
     async signOut() {
       await this.$gAuth.signOut()
+      this.authCode = null
+      this.email = null
     },
     authenticated() {
       return this.authCode != null
