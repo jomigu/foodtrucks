@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve --port 4020",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "deploy": "vue-cli-service build && push-dir --dir=dist --branch=gh-pages --cleanup"
+    "deploy": "CLIENT_ID=18495362772-vob6o2nbnbd33cgrqat9gfmm8nl00hn6.apps.googleusercontent.com vue-cli-service build && push-dir --dir=dist --branch=gh-pages --cleanup"
   },
   "dependencies": {
     "bootstrap": "^5.1.3",
