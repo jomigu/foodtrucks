@@ -25,7 +25,6 @@ export default {
   data() {
     return {
       email: null,
-      authCode: null,
       loginError: false,
     }
   },
@@ -33,13 +32,12 @@ export default {
     async signIn() {
       this.loginError = false
 
-      const result = await this?.$gAuth?.getAuthCode()?.catch((e) => {
-        return e
+      const result = await this?.$gAuth?.signIn()?.catch(() => {
+        return null
       })
-      
+
       if (result) {
-        this.authCode = result
-        this.email = this?.$gAuth?.instance?.currentUser?.get()?.getBasicProfile()?.getEmail()
+        this.email = result.getBasicProfile().getEmail()
         if (!this.email) {
           this.loginError = true
         }
@@ -49,11 +47,10 @@ export default {
     },
     async signOut() {
       await this.$gAuth.signOut()
-      this.authCode = null
       this.email = null
     },
     authenticated() {
-      return this.authCode != null
+      return this.email != null
     }
   },
   setup() {
