@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve --port 4020",
-    "build": "vue-cli-service build",
+    "serve": "vue-cli-service serve",
+    "build": "ORDER_FORM_URL=https://script.google.com/macros/s/AKfycbyrq_QbeBUJnzEieD4Q0EiC5TkB3EwdYgYllRsOl0aTWZ58EtjHedwtc_LM7oS4SDI0/exec CLIENT_ID=18495362772-vob6o2nbnbd33cgrqat9gfmm8nl00hn6.apps.googleusercontent.com vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "deploy": "CLIENT_ID=18495362772-vob6o2nbnbd33cgrqat9gfmm8nl00hn6.apps.googleusercontent.com vue-cli-service build && push-dir --dir=dist --branch=gh-pages --cleanup"
+    "push": "push-dir --dir=dist --branch=gh-pages --cleanup",
+    "deploy": "npm run build && npm run push",
+    "dev": "vue-cli-service serve --port 4020"
   },
   "dependencies": {
     "bootstrap": "^5.1.3",
