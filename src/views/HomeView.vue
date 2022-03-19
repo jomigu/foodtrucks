@@ -11,7 +11,7 @@ export default {
   name: 'HomeView',
   data() {
     return {
-      truck: this.$route.params.truck
+      truck: this.$route.query.truck
     }
   },
   components: {
