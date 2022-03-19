@@ -1,21 +1,19 @@
 <template>
   <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/dashboard">Dashboard</router-link>
-    <p v-if="email">
+    <p v-if="email" class="mt-3">
       <small>Logged-in as {{ email }}. </small>
       <a href="#" @click="signOut">
         <small>Sign-out</small>
       </a>
     </p>
     <p v-else>
-      <button @click="signIn" type="button" class="btn btn-primary mt-5">Google Log-in</button>
+      <button @click="signIn" type="button" class="btn btn-lg btn-primary mt-5">Google Log-in</button>
     </p>
     <p v-show="loginError" class="text-danger">
       <small>Try again</small>
     </p>
   </nav>
-  <router-view/>
+  <router-view v-if="email" />
 </template>
 
 <script>
@@ -38,6 +36,7 @@ export default {
 
       if (result) {
         this.email = result.getBasicProfile().getEmail()
+        localStorage.setItem('email', this.email)
         if (!this.email) {
           this.loginError = true
         }
@@ -52,6 +51,10 @@ export default {
     authenticated() {
       return this.email != null
     }
+  },
+  mounted() {
+    const email = localStorage.getItem('email')
+    this.email = email
   },
   setup() {
     const Vue3GoogleOauth = inject("Vue3GoogleOauth")
@@ -72,7 +75,7 @@ export default {
 }
 
 nav {
-  padding: 30px;
+  padding: 10px;
 }
 
 nav a {

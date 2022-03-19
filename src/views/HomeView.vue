@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <OrderForm />
+    <OrderForm :truck="truck"  />
   </div>
 </template>
 
@@ -9,6 +9,11 @@ import OrderForm from "../components/OrderForm.vue";
 // @ is an alias to /src
 export default {
   name: 'HomeView',
+  data() {
+    return {
+      truck: this.$route.params.truck
+    }
+  },
   components: {
     OrderForm
   }
